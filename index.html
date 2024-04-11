@@ -16,6 +16,22 @@
     <main>
 
         <form action="https://formspree.io/f/mvoewnrv" method="POST" enctype="multipart/form-data">
+            <!-- New fields for completer's name and email -->
+            <div class="form-group">
+                <label for="completerName">Your Name:</label>
+                <input type="text" id="completerName" name="completerName" required>
+            </div>
+
+            <div class="form-group">
+                <label for="completerEmail">Your Email:</label>
+                <input type="email" id="completerEmail" name="completerEmail" required>
+            </div>
+
+            <!-- Field for specifying the week of payroll -->
+            <div class="form-group">
+                <label for="payrollWeek">Payroll Week:</label>
+                <input type="week" id="payrollWeek" name="payrollWeek" required>
+            </div>
 
             <!-- Employee 1 -->
             <div class="employee-entry">
@@ -31,36 +47,8 @@
                 <label for="salaryPaid1">Salary Paid ($):</label>
                 <input type="number" id="salaryPaid1" name="salaryPaid[]" step="0.01" required>
             </div>
-            <!-- Duplicate the above div for each employee, incrementing the "for" and "id" attributes appropriately -->
-            <!-- Employee 2 -->
-            <div class="employee-entry">
-                <label for="employeeName2">Employee Name:</label>
-                <input type="text" id="employeeName2" name="employeeName[]" required>
-
-                <label for="position2">Position:</label>
-                <input type="text" id="position2" name="position[]" required>
-
-                <label for="hoursWorked2">Hours Worked:</label>
-                <input type="number" id="hoursWorked2" name="hoursWorked[]" step="0.1" required>
-
-                <label for="salaryPaid2">Salary Paid ($):</label>
-                <input type="number" id="salaryPaid2" name="salaryPaid[]" step="0.01" required>
-            </div>
-            <div class="employee-entry">
-                <label for="employeeName3">Employee Name:</label>
-                <input type="text" id="employeeName3" name="employeeName[]" required>
-
-                <label for="position3">Position:</label>
-                <input type="text" id="position3" name="position[]" required>
-
-                <label for="hoursWorked3">Hours Worked:</label>
-                <input type="number" id="hoursWorked3" name="hoursWorked[]" step="0.1" required>
-
-                <label for="salaryPaid3">Salary Paid ($):</label>
-                <input type="number" id="3" name="salaryPaid[]" step="0.01" required>
-            </div>
-            <!-- ... -->
-            <!-- Employee 5 -->
+            <!-- Employee 2 to 3 and more can be added dynamically -->
+            
             <button type="button" onclick="addEmployee()">Add Another Employee</button>
             <button type="submit">Submit Payroll Records</button>
         </form>
@@ -69,3 +57,76 @@
 </body>
 
 </html>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f0f2f5;
+    }
+
+    header h1, header p {
+        text-align: center;
+    }
+
+    form {
+        max-width: 600px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .employee-entry, .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin: 10px 0 5px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="week"] {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        margin: 10px 0 0;
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<script>
+    function addEmployee() {
+        const originalEntry = document.querySelector('.employee-entry');
+        const newEntry = originalEntry.cloneNode(true);
+        const entryNumber = document.querySelectorAll('.employee-entry').length + 1;
+        newEntry.querySelectorAll('input').forEach(input => {
+            input.id += entryNumber;
+            input.name = input.name.replace(/\[\]$/, '[' + entryNumber + ']');
+            input.value = '';
+        });
+        newEntry.querySelectorAll('label').forEach(label => {
+            label.setAttribute('for', label.getAttribute('for') + entryNumber);
+        });
+        document.querySelector('form').insertBefore(newEntry, document.querySelector('button[type="submit"]'));
+    }
+</script>
